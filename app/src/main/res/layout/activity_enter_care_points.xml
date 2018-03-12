@@ -6,6 +6,58 @@
     android:layout_height="match_parent"
     tools:context="com.example.bernie.carepointsv2.EnterCarePoints">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
+            <TextView
+                android:id="@+id/welcomeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="50px"
+                android:text=
+                    "Enter CarePoints for each option. Make sure your total adds up to 100!"
+                android:textAlignment="center"
+                android:textSize="24sp" />
+        </android.support.v7.widget.CardView>
+
+        <ScrollView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+            <LinearLayout
+                android:id="@+id/optionsLayout"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/addPersonButton"
+        android:src="@drawable/ic_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="24dp"
+        app:fab_colorNormal="@color/colorPrimary"
+        app:fab_colorPressed="@color/colorPrimaryDark" />
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/finishButton"
+        android:src="@drawable/ic_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/addPersonButton"
+        android:layout_marginBottom="24dp"/>
 
 </RelativeLayout>

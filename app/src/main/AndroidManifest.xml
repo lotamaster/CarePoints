@@ -16,7 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EnterCarePoints"></activity>
+        <activity android:name=".EnterCarePoints" />
+        <activity android:name=".Results"></activity>
     </application>
 
 </manifest>

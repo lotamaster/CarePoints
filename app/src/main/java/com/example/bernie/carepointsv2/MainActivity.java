@@ -3,11 +3,9 @@ package com.example.bernie.carepointsv2;
 import android.app.Activity;
 import android.content.Intent;
 
-import android.graphics.Color;
 
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.text.Layout;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,16 +40,16 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        layout = (RelativeLayout) findViewById(R.id.layout);
-        optionsLayout = (LinearLayout) findViewById(R.id.optionsLayout);
-        welcomeText = (TextView) findViewById(R.id.welcomeText);
-        allCardViews = new HashMap<ImageButton, CardView>();
-        allOptions = new HashMap<CardView, EditText>();
-        removeButtons = new HashMap<LinearLayout, ImageButton>();
-        optionsTexts = new ArrayList<TextView>();
+        layout = findViewById(R.id.layout);
+        optionsLayout = findViewById(R.id.optionsLayout);
+        welcomeText = findViewById(R.id.welcomeText);
+        allCardViews = new HashMap<>();
+        allOptions = new HashMap<>();
+        removeButtons = new HashMap<>();
+        optionsTexts = new ArrayList<>();
         showRemoveButtons = false;
 
-        continueButton = (FloatingActionButton) findViewById(R.id.continueButton);
+        continueButton = findViewById(R.id.continueButton);
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,7 +57,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        addOptionButton = (FloatingActionButton) findViewById(R.id.addOptionButton);
+        addOptionButton = findViewById(R.id.addOptionButton);
         ((RelativeLayout.LayoutParams)continueButton.getLayoutParams()).addRule(RelativeLayout.LEFT_OF, addOptionButton.getId());
         addOptionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,29 +68,19 @@ public class MainActivity extends Activity {
         addButtonClick();
     }
 
-    private void continueButtonClick() {
-        Intent intent = new Intent(this, EnterCarePoints.class);
-        ArrayList<String> options = new ArrayList<String>();
-
-        for (EditText editText : allOptions.values()) {
-            options.add(editText.getText().toString());
-        }
-
-        intent.putExtra("Options", options);
-        startActivity(intent);
-    }
-
     private void addButtonClick() {
         if (allCardViews.size() > 0) {
             welcomeText.setText("When you are done adding options, continue to start assigning Care Points!");
         }
 
+        // main card view for each option
         CardView cardView = new CardView(MainActivity.this);
         cardView.setLayoutParams(new CardView.LayoutParams(CardView.LayoutParams.MATCH_PARENT, CardView.LayoutParams.WRAP_CONTENT));
         ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)cardView.getLayoutParams();
         int pixels = getPixels(5);
         params.setMargins(pixels, pixels, pixels, pixels);
 
+        // card view contains a linear layout to hold all of the ocmponents
         LinearLayout firstCardLayout = new LinearLayout(MainActivity.this);
         firstCardLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         params = (ViewGroup.MarginLayoutParams)firstCardLayout.getLayoutParams();
@@ -100,26 +88,26 @@ public class MainActivity extends Activity {
         params.setMargins(pixels, pixels, pixels, pixels);
         firstCardLayout.setOrientation(LinearLayout.VERTICAL);
 
+        // label each option as "Option __"
         final TextView optionText = new TextView(MainActivity.this);
         int numOption = allOptions.size() + 1;
         optionText.setText("Option " + numOption);
         firstCardLayout.addView(optionText);
         optionsTexts.add(optionText);
 
-
+        // another horizontal layout to put the EditText and RemoveButton on the same line
         final LinearLayout cardLayout = new LinearLayout(MainActivity.this);
         cardLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        params = (ViewGroup.MarginLayoutParams)cardLayout.getLayoutParams();
-        pixels = getPixels(10);
-        params.setMargins(pixels, pixels, pixels, pixels);
         cardLayout.setOrientation(LinearLayout.HORIZONTAL);
         cardLayout.setWeightSum(10);
 
+        // new option text to enter the name of the option
         final EditText newOptionText = new EditText(MainActivity.this);
         LinearLayout.LayoutParams linearParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
         newOptionText.setLayoutParams(linearParams);
         newOptionText.requestFocus();
 
+        // to remove an option
         final ImageButton removeButton = new ImageButton(MainActivity.this);
         removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,6 +184,19 @@ public class MainActivity extends Activity {
             welcomeText.setText("Click the button below to add an option!");
             layout.removeView(continueButton);
         }
+    }
+
+    private void continueButtonClick() {
+        Intent intent = new Intent(this, EnterCarePoints.class);
+        HashMap<String, Integer> options = new HashMap<>();
+
+        for (EditText editText : allOptions.values()) {
+            options.put(editText.getText().toString(), 0);
+        }
+
+        intent.putExtra("Options", options);
+        intent.putExtra("numberOfPeople", 1);
+        startActivity(intent);
     }
 
     private int getPixels(int dp) {
